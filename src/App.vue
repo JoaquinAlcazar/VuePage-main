@@ -16,15 +16,17 @@
   <div class="contentPanel2" v-if="page == 'CRUD'">
     <button v-if="IsFalse" @click="addNew = true" class="add">Nou</button>
     <cr v-if="!IsFalse" :array="[...Content]" @AppendArray="Apend" @ChangeAdd="ChangeButton"></cr>
-    
+
     <ud :array="[...Content]" @NewContent="ActualizeContent"></ud>
 
   </div>
 
   <div v-if="page == 'API'">
-    <Seeker @search="ConectaApi"></Seeker>
-    <Show v-if="NotNullPokemon" :pokemonToShow="pokemon"></Show>
-    <favoritos v-if="HasGotPokemon" :pokemonFavoritos="pokemonFav"></favoritos>
+
+    <Seeker @search="ConectaApi" @addFav="AddToFav"></Seeker>
+    <Show :pokemonToShow="pokemon"></Show>
+    <favoritos :pokemonFavoritos="pokemonFav"></favoritos>
+
   </div>
 </template>
 
@@ -79,7 +81,8 @@ export default {
       ],
       page: 'Home',
       pageStatus: ['Home', 'CRUD', 'API'],
-      addNew: false,
+      addNew:false,
+
       pokemon: null,
       pokemonFav: []
     }
@@ -122,12 +125,24 @@ export default {
         }))
     },
     AddToFav(pokemon) {
-      this.pokemonFav.push(this.pokemon)
-      for (let i = 0; i < this.pokemonFav.length; i++) {
-        if (this.pokemonFav[i].name == pokemon) {
-          this.pokemonFav.pop(i)
+      console.log(this.pokemon)
+      let find = false;
+      let counter = 0;
+      let pos=0;
+      for (let i = 0; counter < this.pokemonFav.length; i++) {
+        if (this.pokemonFav[i].name == this.pokemon.name) {
+          console.log("si")
+          find = true;
+          pos = i;
+        }   
+        counter++;     
+      }  
+      if (find) {  
+          this.pokemonFav.pop(pos)
+        } else{
+          this.pokemonFav.push(this.pokemon)
         }
-      }
+      console.log(this.pokemonFav) 
     },
     ActualizeContent(newContent) {
       this.Content = JSON.parse(JSON.stringify(newContent))
