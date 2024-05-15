@@ -4,7 +4,7 @@
         <form v-on:submit.prevent>
             <input v-model="nameP" type="text">
             <input @click="ReturnValue" type="submit" value=" buscar">
-            <input @click="AddToFav" type="submit" value="Añadir a avoritos">
+            <input @click="AddToFav" type="submit" value="Añadir/quitar favoritos">
         </form>
     </div>
 </template>

@@ -22,7 +22,7 @@
 
 
   <div v-if="page == 'API'">
-    <Seeker @search="ConectaApi"></Seeker>
+    <Seeker @search="ConectaApi" @addFav="AddToFav"></Seeker>
     <Show :pokemonToShow="pokemon"></Show>
     <favoritos :pokemonFavoritos="pokemonFav"></favoritos>
   </div>
@@ -63,8 +63,8 @@ export default {
           image: '/src/components/img/Pokemon.jpg'
         }
       ],
-      CurrentStatus: 'Home',
-      PageStatus: ['Home', 'CRUD', 'API'],
+      page: 'Home',
+      pageStatus: ['Home', 'CRUD', 'API'],
       addNew:false,
       pokemon: null,
       pokemonFav: []
@@ -72,7 +72,7 @@ export default {
   },
   computed: {
     IsHome() {
-      return this.CurrentStatus == 'Home'
+      return this.page == 'Home'
     }, currentContent() {
       return this.Content;
     },
@@ -103,12 +103,24 @@ export default {
         }))
     },
     AddToFav(pokemon) {
-      this.pokemonFav.push(this.pokemon)
-      for (let i = 0; i < this.pokemonFav.length; i++) {
-        if (this.pokemonFav[i].name == pokemon) {
-          this.pokemonFav.pop(i)
+      console.log(this.pokemon)
+      let find = false;
+      let counter = 0;
+      let pos=0;
+      for (let i = 0; counter < this.pokemonFav.length; i++) {
+        if (this.pokemonFav[i].name == this.pokemon.name) {
+          console.log("si")
+          find = true;
+          pos = i;
+        }   
+        counter++;     
+      }  
+      if (find) {  
+          this.pokemonFav.pop(pos)
+        } else{
+          this.pokemonFav.push(this.pokemon)
         }
-      }
+      console.log(this.pokemonFav) 
     },
     ActualizeContent(newContent) {
       this.Content = JSON.parse(JSON.stringify(newContent))
