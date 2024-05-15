@@ -25,7 +25,7 @@
 
     <Seeker @search="ConectaApi" @addFav="AddToFav"></Seeker>
     <Show :pokemonToShow="pokemon"></Show>
-    <favoritos :pokemonFavoritos="pokemonFav"></favoritos>
+    <favoritos :pokemonFavoritos="GetFavoritos"></favoritos>
 
   </div>
 </template>
@@ -84,7 +84,7 @@ export default {
       addNew:false,
 
       pokemon: null,
-      pokemonFav: []
+      pokemonFav: new Map() 
     }
   },
   computed: {
@@ -101,6 +101,9 @@ export default {
     },
     IsFalse() {
       return this.addNew == false;
+    },
+    GetFavoritos() {
+      return Array.from(this.pokemonFav)
     }
   },
   methods: {
@@ -137,12 +140,33 @@ export default {
         }   
         counter++;     
       }  
-      if (find) {  
-          this.pokemonFav.pop(pos)
-        } else{
-          this.pokemonFav.push(this.pokemon)
+      if (!find) {  
+          this.pokemonFav.set(this.pokemon.name, this.pokemon)
         }
       console.log(this.pokemonFav) 
+    },
+    DeleteFav(pokemonName) {
+      if (this.pokemonFav.has(pokemonName)) {
+        this.pokemonFav.delete(pokemonName);
+      }
+      /*
+      console.log(this.pokemon)
+      let find = false;
+      let counter = 0;
+      let pos=0;
+      for (let i = 0; counter < this.pokemonFav.length; i++) {
+        if (this.pokemonFav[i].name == this.pokemon.name) {
+          console.log("si")
+          find = true;
+          pos = i;
+        }   
+        counter++;
+      } 
+      if (find) {
+        this.pokemonFav.pop(this.pokemon)
+      }
+      console.log(this.pokemonFav)
+      */
     },
     ActualizeContent(newContent) {
       this.Content = JSON.parse(JSON.stringify(newContent))

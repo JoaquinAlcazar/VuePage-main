@@ -20,7 +20,7 @@ export default {
     // Lista de funciones (métodos) disponibles en el componente Vue.
     methods: {
         returnInfo(){
-            this.$emit('conextaApi', this.pokemonToShow)
+            this.$emit('conectaApi', this.pokemonToShow)
         }
     },
 };
