@@ -25,7 +25,9 @@
 
     <Seeker @search="ConectaApi" @addFav="AddToFav"></Seeker>
     <Show :pokemonToShow="pokemon"></Show>
-    <favoritos :pokemonFavoritos="pokemonFav"></favoritos>
+
+    <favoritos :pokemonFavoritos="GetFavoritos"></favoritos>
+
   </div>
 </template>
 
@@ -65,7 +67,7 @@ export default {
       addNew: false,
 
       pokemon: null,
-      pokemonFav: []
+      pokemonFav: new Map() 
     }
   },
   computed: {
@@ -83,6 +85,9 @@ export default {
     },
     IsFalse() {
       return this.addNew == false;
+    },
+    GetFavoritos() {
+      return Array.from(this.pokemonFav)
     }
   },
   methods: {
@@ -116,19 +121,24 @@ export default {
           console.log("si")
           find = true;
           pos = i;
+        }   
+        counter++;     
+      }  
+      if (!find) {  
+          this.pokemonFav.set(this.pokemon.name, this.pokemon)
+
         }
         counter++;
       }
-      if (find) {
-        this.pokemonFav.pop(pos)
-      } else {
-        this.pokemonFav.push(this.pokemon)
-      }
-      console.log(this.pokemonFav)
     },
     ActualizeContent(title, value) {
       this.content.set(title,value)
       console.log(this.content)
+    },
+    DeleteFav(pokemonName){
+      if (this.pokemonFav.has(pokemonName)) {
+        this.pokemonFav.delete(pokemonName);
+      }
     },
     Apend(title,value) {
       console.log(typeof (this.content))
@@ -141,7 +151,6 @@ export default {
       console.log(this.IsFalse)
     }
   }
-}
 </script>
 
 <style scoped>
