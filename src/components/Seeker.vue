@@ -26,9 +26,11 @@ export default {
             this.$emit('search',this.nameP);
         },
         AddToFav(){
+            console.log(this.nameP)
             this.$emit('addFav',this.nameP);
         },
         DeleteFav(){
+            console.log(this.nameP)
             this.$emit('deleteFav', this.nameP);
         }
     },

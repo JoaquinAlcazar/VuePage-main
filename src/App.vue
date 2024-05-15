@@ -23,7 +23,7 @@
 
   <div v-if="page == 'API'">
 
-    <Seeker @search="ConectaApi" @addFav="AddToFav"></Seeker>
+    <Seeker @search="ConectaApi" @addFav="AddToFav" @deleteFav="DeleteFav"></Seeker>
     <Show :pokemonToShow="pokemon"></Show>
     <favoritos :pokemonFavoritos="GetFavoritos"></favoritos>
 
@@ -146,9 +146,8 @@ export default {
       console.log(this.pokemonFav) 
     },
     DeleteFav(pokemonName) {
-      if (this.pokemonFav.has(pokemonName)) {
+      console.log(pokemonName)
         this.pokemonFav.delete(pokemonName);
-      }
       /*
       console.log(this.pokemon)
       let find = false;
