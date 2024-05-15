@@ -15,7 +15,8 @@
   <!-- class="contentPanel2" v-if="page == 'CRUD'" -->
   <div class="contentPanel2" v-if="page == 'CRUD'">
     <button v-if="IsFalse" @click="addNew = true" class="add">Nou</button>
-    <cr v-if="!IsFalse" :array="currentContent" @AppendArray="Apend" @ChangeAdd="ChangeButton"></cr>
+
+    <cr v-if="!IsFalse" :array="currentContent" @AppendArray="Append" @ChangeAdd="ChangeButton"></cr>
 
     <ud :array="currentContent" @NewContent="ActualizeContent"></ud>
 
@@ -24,9 +25,9 @@
   <div v-if="page == 'API'">
 
     <Seeker @search="ConectaApi" @addFav="AddToFav"></Seeker>
-    <Show :pokemonToShow="pokemon"></Show>
+    <Show v-if="NotNullPokemon" :pokemonToShow="pokemon"></Show>
 
-    <favoritos :pokemonFavoritos="GetFavoritos"></favoritos>
+    <favoritos v-if="HasGotPokemon" :pokemonFavoritos="GetFavoritos"></favoritos>
 
   </div>
 </template>
@@ -67,7 +68,7 @@ export default {
       addNew: false,
 
       pokemon: null,
-      pokemonFav: new Map() 
+      pokemonFav: new Map()
     }
   },
   computed: {
@@ -115,33 +116,31 @@ export default {
       console.log(pokemon)
       let find = false;
       let counter = 0;
-      let pos = 0;
       for (let i = 0; counter < this.pokemonFav.length; i++) {
         if (this.pokemonFav[i].name == this.pokemon.name) {
           console.log("si")
           find = true;
-          pos = i;
-        }   
-        counter++;     
-      }  
-      if (!find) {  
-          this.pokemonFav.set(this.pokemon.name, this.pokemon)
-
         }
         counter++;
       }
-    },
+      if (!find) {
+        this.pokemonFav.set(this.pokemon.name, this.pokemon)
+
+      }
+      counter++;
+    }, 
     ActualizeContent(title, value) {
-      this.content.set(title,value)
+      this.content.set(title, value)
       console.log(this.content)
     },
-    DeleteFav(pokemonName){
+    DeleteFav(pokemonName) {
       if (this.pokemonFav.has(pokemonName)) {
         this.pokemonFav.delete(pokemonName);
       }
     },
-    Apend(title,value) {
-      console.log(typeof (this.content))
+    Append(title, value) {
+      console.log(this.content)
+
       this.content.set(title, value)
     },
     ChangeButton(value) {
@@ -151,6 +150,7 @@ export default {
       console.log(this.IsFalse)
     }
   }
+}
 </script>
 
 <style scoped>
