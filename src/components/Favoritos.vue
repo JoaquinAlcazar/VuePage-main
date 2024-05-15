@@ -1,8 +1,8 @@
 <template>
     <!-- Código HTML -->
-    <div  class="FavouritePokemon">
-        <section v-for="([name, values]) in pokemonFavoritos">
-            <img v-bind:src="values.sprites.front_default" alt="pokemon.name">
+    <div class="FavouritePokemon">
+        <section v-for="([name, values]) in pokemonFavoritos" v-bind:key="name">
+            <img :src="values.sprites.front_default" :alt="name">
             <p>{{ name }}</p>
         </section>
     </div>
@@ -14,10 +14,11 @@
 export default {
     props: ['pokemonFavoritos'],
 
-    name:"fav-p",
-    data(){
-        
+    name: "fav-p",
+    data() {
+
     },
+
     // Lista de funciones (métodos) disponibles en el componente Vue.
     methods: {
 
@@ -25,7 +26,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 /* Estilos CSS */
 section {
     width: 400px;

@@ -24,12 +24,9 @@
 
   <div v-if="page == 'API'">
 
-
     <Seeker @search="ConectaApi" @addFav="AddToFav" @deleteFav="DeleteFav"></Seeker>
     <Show v-if="NotNullPokemon" :pokemonToShow="pokemon"></Show>
-
-
-    <favoritos v-if="HasGotPokemon" :pokemonFavoritos="GetFavoritos"></favoritos>
+    <favoritos :pokemonFavoritos="GetFavoritos"></favoritos>
 
   </div>
 </template>
@@ -70,7 +67,7 @@ export default {
       addNew: false,
 
       pokemon: null,
-      pokemonFav: new Map()
+      pokemonFav: new Map([])
     }
   },
   computed: {
@@ -78,6 +75,7 @@ export default {
       return this.pokemon != null
     },
     HasGotPokemon() {
+      console.log(this.pokemonFav.length > 0)
       return this.pokemonFav.length > 0
     },
     IsHome() {
@@ -115,25 +113,14 @@ export default {
         }))
     },
     AddToFav(pokemon) {
-      console.log(pokemon)
-      let find = false;
-      let counter = 0;
-      for (let i = 0; counter < this.pokemonFav.length; i++) {
-        if (this.pokemonFav[i].name == this.pokemon.name) {
-          console.log("si")
-          find = true;
-        }
-        counter++;
-      }
-      if (!find) {
-        this.pokemonFav.set(this.pokemon.name, this.pokemon)
-
-      }
-      counter++;
+      console.log(pokemon + "dsa")
+      console.log(this.pokemon)
+      console.log(this.pokemon.name)
+      this.pokemonFav.set(this.pokemon.name, this.pokemon)
+      console.log(this.pokemonFav)
     },
-
     DeleteFav(pokemonName) {
-      console.log(pokemonName)
+    console.log(pokemonName)
       this.pokemonFav.delete(pokemonName);
     },
     ActualizeContent(title, value) {
