@@ -12,11 +12,15 @@
       :image="game.image">
     </viewer>
   </div>
-  <!-- dsda -->
-  <!-- v-if="CurrentStatus == 'CRUD'" -->
+
+  <!-- v-if="CurrentStatus == 'CRUD'"  v-if="addNew" -->
   <div class="contentPanel2">
     <ud :array="[...Content]" @NewContent="ActualizeContent"></ud>
+  <button v-if="!addNew" @click="addNew=true" class="add">Nou</button>
+  <cr :array="[...Content]" ></cr>
   </div>
+
+
   <div v-if="CurrentStatus == 'API'">
     <Seeker @search="ConectaApi"></Seeker>
     <Show :pokemonToShow="pokemon"></Show>
@@ -29,13 +33,15 @@ import Show from "./components/Show.vue";
 import viewer from '@/components/ShowGame.vue'
 import navButton from '@/components/Status.vue'
 import ud from '@/components/CrudComponents/Ud.vue'
+import cr from "@/components/CrudComponents/CR.vue"
 export default {
   components: {
     viewer,
     navButton,
     ud,
     Seeker,
-    Show
+    Show,
+    cr
   },
   data() {
     return {
@@ -54,7 +60,8 @@ export default {
         }
       ],
       CurrentStatus: 'Home',
-      PageStatus: ['Home', 'CRUD', 'API']
+      PageStatus: ['Home', 'CRUD', 'API'],
+      addNew:false
     }
   },
   computed: {
@@ -83,8 +90,8 @@ export default {
           console.log(err);
         }))
     },
-    ActualizeContent(newContent){
-      this.Content=JSON.parse(JSON.stringify(newContent))
+    ActualizeContent(newContent) {
+      this.Content = JSON.parse(JSON.stringify(newContent))
     }
   }
 }
@@ -97,10 +104,14 @@ export default {
   flex-wrap: wrap;
   justify-content: space-around;
 }
-
+.add{
+margin-left: 50%;
+}
 .ContentPanel2 {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 .gamesContent {

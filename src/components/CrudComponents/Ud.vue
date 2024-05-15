@@ -18,8 +18,9 @@
         <p class="crud"><button @click="Updated(objeto)">Actualizar</button></p>
       </article>
     </section>
+    
   </div>
-</template>F
+</template>
 <script>
 
 export default {
@@ -79,6 +80,7 @@ p {
 
 textarea {
   outline: none;
+  border: none;
   text-align: center;
   vertical-align: middle;
 }
@@ -102,6 +104,7 @@ textarea {
   width: 1000px;
   min-height: 75px;
   overflow-y: auto;
+  margin-right: 10px;
 }
 
 .img {
