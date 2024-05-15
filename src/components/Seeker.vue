@@ -4,6 +4,7 @@
         <form v-on:submit.prevent>
             <input v-model="nameP" type="text">
             <input @click="ReturnValue" type="submit" value=" buscar">
+            <input @click="AddToFav" type="submit" value="Añadir a avoritos">
         </form>
     </div>
 </template>
@@ -23,6 +24,9 @@ export default {
     methods: {
         ReturnValue(){
             this.$emit('search',this.nameP);
+        },
+        AddToFav(){
+            this.$emit('addFav',this.nameP);
         }
     },
 };

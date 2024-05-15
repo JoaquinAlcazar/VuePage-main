@@ -22,8 +22,9 @@
 
 
   <div v-if="CurrentStatus == 'API'">
-    <Seeker @search="ConectaApi"></Seeker>
+    <Seeker @search="ConectaApi" @addFav="AddToFav"></Seeker>
     <Show :pokemonToShow="pokemon"></Show>
+    <favoritos :pokemonFavoritos="pokemonFav"></favoritos>
   </div>
 </template>
 
@@ -34,6 +35,7 @@ import viewer from '@/components/ShowGame.vue'
 import navButton from '@/components/Status.vue'
 import ud from '@/components/CrudComponents/Ud.vue'
 import cr from "@/components/CrudComponents/CR.vue"
+import favoritos from "@/components/Favoritos.vue"
 export default {
   components: {
     viewer,
@@ -41,7 +43,9 @@ export default {
     ud,
     Seeker,
     Show,
-    cr
+    cr,
+    favoritos
+
   },
   data() {
     return {
@@ -61,7 +65,9 @@ export default {
       ],
       CurrentStatus: 'Home',
       PageStatus: ['Home', 'CRUD', 'API'],
-      addNew:false
+      addNew:false,
+      pokemon: null,
+      pokemonFav: [],
     }
   },
   computed: {
@@ -89,6 +95,14 @@ export default {
         .catch((err => {
           console.log(err);
         }))
+    },
+    AddToFav(pokemon) {
+      this.pokemonFav.push(this.pokemon)
+      for (let i = 0; i < this.pokemonFav.length; i++) {
+        if (this.pokemonFav[i].name == pokemon) {
+          this.pokemonFav.pop(i)
+        }
+      }
     },
     ActualizeContent(newContent) {
       this.Content = JSON.parse(JSON.stringify(newContent))
