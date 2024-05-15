@@ -14,7 +14,7 @@
                 <input type="file" class="img" @change="onFileChange">
             </article>
             <article class="buttons">
-                <button>cancelar</button>
+                <button @click="ActualizeButton">cancelar</button>
                 <button @click="Add">Afegir</button>
             </article>
         </section>
@@ -38,13 +38,13 @@ export default {
     methods:
     {
         Add() {
-console.log("ebtrada")
+            console.log("ebtrada")
             if (this.array.some(x => x.name == this.name)) {
                 alert("El joc ja existeix");
             } else {
-                this.ActualizeContent({ name: this.name, description: this.description, image: this.image });
+                this.ActualizeContent(this.name, { description: this.description, image: this.image });
                 console.log("ad")
-               this.ActualizeButton();
+                this.ActualizeButton();
             }
         },
         Cancel(newArray) {
@@ -57,12 +57,12 @@ console.log("ebtrada")
 
             }
         },
-        ActualizeContent(array){
+        ActualizeContent(title, value) {
 
-            this.$emit("AppendArray",array);
+            this.$emit("AppendArray",title, value);
         },
-        ActualizeButton(){
-            this.$emit("ChangeAdd",false);
+        ActualizeButton() {
+            this.$emit("ChangeAdd", false);
         }
     }
 }

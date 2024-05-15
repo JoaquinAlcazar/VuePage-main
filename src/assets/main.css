@@ -60,7 +60,7 @@ html,body{
   sans-serif;
 }
 
-@media(min-width:1024px){
+@media(min-width: 100px) and (max-width: 1600px){
   ::-webkit-scrollbar:horizontal {
     height: 5px; /* Altura del scrollbar horizontal */
 }
