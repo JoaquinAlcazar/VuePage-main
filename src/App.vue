@@ -20,7 +20,7 @@
 
   </div>
 
-  
+
 
   <div v-if="page == 'API'">
     <Seeker @search="ConectaApi"></Seeker>
@@ -68,7 +68,7 @@ export default {
   computed: {
     IsHome() {
       return this.CurrentStatus == 'Home'
-    },currentContent(){
+    }, currentContent() {
       return this.Content;
     },
 
@@ -125,7 +125,7 @@ export default {
 .add {
   margin-left: 50%;
   width: 90px;
-  height:60px ;
+  height: 60px;
 }
 
 .ContentPanel2 {
