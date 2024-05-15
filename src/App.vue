@@ -129,9 +129,7 @@ export default {
 
         }
         counter++;
-      }
     },
-
     DeleteFav(pokemonName) {
       console.log(pokemonName)
         this.pokemonFav.delete(pokemonName);
@@ -151,7 +149,8 @@ export default {
       console.log(this.addNew)
       console.log(this.IsFalse)
     }
-  }
+  } 
+}
 </script>
 
 <style scoped>

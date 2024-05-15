@@ -1,9 +1,9 @@
 <template>
     <!-- Código HTML -->
     <div v-if="pokemonToShow != null" class="ShowPokemon">
-        <img width="300px" height="300px" v-bind:src="pokemonToShow.sprites.front_default">
-        <p>{{ pokemonToShow.name }}</p>
-        <p>{{ pokemonToShow.id }}</p>
+            <img width="300px" height="300px" v-bind:src="pokemonToShow.sprites.front_default">
+            <p>{{ pokemonToShow.name }}</p>
+            <p>{{ pokemonToShow.id }}</p>
     </div>
 </template>
 
@@ -26,6 +26,10 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 /* Estilos CSS */
+div {
+    display: flex;
+    flex-direction: column;
+}
 </style>
