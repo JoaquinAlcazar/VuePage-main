@@ -1,8 +1,10 @@
 <template>
     <!-- Código HTML -->
-    <div v-for="([name, values]) in pokemonFavoritos" class="FavouritePokemon">
-        <img v-bind:src="values.sprites.front_default" alt="pokemon.name">
-        <p>{{ name }}</p>
+    <div  class="FavouritePokemon">
+        <section v-for="([name, values]) in pokemonFavoritos">
+            <img v-bind:src="values.sprites.front_default" alt="pokemon.name">
+            <p>{{ name }}</p>
+        </section>
     </div>
 </template>
 
@@ -25,4 +27,13 @@ export default {
 
 <style>
 /* Estilos CSS */
+section {
+    width: 400px;
+}
+
+div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 </style>

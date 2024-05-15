@@ -24,8 +24,10 @@
 
   <div v-if="page == 'API'">
 
-    <Seeker @search="ConectaApi" @addFav="AddToFav"></Seeker>
+
+    <Seeker @search="ConectaApi" @addFav="AddToFav" @deleteFav="DeleteFav"></Seeker>
     <Show v-if="NotNullPokemon" :pokemonToShow="pokemon"></Show>
+
 
     <favoritos v-if="HasGotPokemon" :pokemonFavoritos="GetFavoritos"></favoritos>
 
@@ -128,15 +130,15 @@ export default {
 
       }
       counter++;
-    }, 
+    },
+
+    DeleteFav(pokemonName) {
+      console.log(pokemonName)
+      this.pokemonFav.delete(pokemonName);
+    },
     ActualizeContent(title, value) {
       this.content.set(title, value)
       console.log(this.content)
-    },
-    DeleteFav(pokemonName) {
-      if (this.pokemonFav.has(pokemonName)) {
-        this.pokemonFav.delete(pokemonName);
-      }
     },
     Append(title, value) {
       console.log(this.content)
