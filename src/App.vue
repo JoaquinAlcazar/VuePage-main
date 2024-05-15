@@ -16,15 +16,15 @@
   <div class="contentPanel2" v-if="page == 'CRUD'">
     <button v-if="IsFalse" @click="addNew = true" class="add">Nou</button>
     <cr v-if="!IsFalse" :array="[...Content]" @AppendArray="Apend" @ChangeAdd="ChangeButton"></cr>
+    
     <ud :array="[...Content]" @NewContent="ActualizeContent"></ud>
 
   </div>
 
-
   <div v-if="page == 'API'">
     <Seeker @search="ConectaApi"></Seeker>
-    <Show :pokemonToShow="pokemon"></Show>
-    <favoritos :pokemonFavoritos="pokemonFav"></favoritos>
+    <Show v-if="NotNullPokemon" :pokemonToShow="pokemon"></Show>
+    <favoritos v-if="HasGotPokemon" :pokemonFavoritos="pokemonFav"></favoritos>
   </div>
 </template>
 
@@ -49,12 +49,26 @@ export default {
   },
   data() {
     return {
+      content: new Map([
+        ['Dead Cells', {
+          name: 'Dead Cells',
+          description: 'Dead Cells es un videojuego híbrido entre el género de exploración de mazmorras o roguelite, y metroidvania, creando su propio género, “roguevania”, desarrollado por el estudio Motion Twin. El juego fue lanzado para PC, Mac, Linux, Playstation 4, Nintendo Switch y Xbox One, siendo lanzado en la plataforma de Steam el 6 de agosto de 2018, bajo la categoría de juego de acción e indie.',
+          image: '/src/components/img/Dead Cells.jpg'
+        }],
+        ['Pokemon XY', {
+          name: 'Pokemon XY',
+          description: 'Pokemon XY es una entrega de la franquicia Pokémon desarrollada por Game Freak y distribuida por Nintendo para la consola portátil Nintendo 3DS. Lanzada en 2013, Pokémon XY introdujo la sexta generación de Pokémon, así como nuevas características de juego y gráficos en 3D.',
+          image: '/src/components/img/Pokemon.jpg'
+        }]
+      ]),
       Content: [
         {
+
           name: 'Dead Cells',
           description:
             'Dead Cellss es un videojuego híbrido entre el género de exploración de mazmorras o roguelite, y metroidvania, creando su propio género, “roguevania”, desarrollado por el estudio Motion Twin.1​ El juego fue lanzado para PC, Mac, Linux, Playstation 4, Nintendo Switch y Xbox One,1​ siendo lanzado en la plataforma de Steam el 6 de agosto de 2018, bajo la categoría de juego de acción e indie.',
           image: '/src/components/img/Dead Cells.jpg'
+
         },
         {
           name: 'Pokemon XY',
@@ -63,20 +77,25 @@ export default {
           image: '/src/components/img/Pokemon.jpg'
         }
       ],
-      CurrentStatus: 'Home',
-      PageStatus: ['Home', 'CRUD', 'API'],
-      addNew:false,
+      page: 'Home',
+      pageStatus: ['Home', 'CRUD', 'API'],
+      addNew: false,
       pokemon: null,
       pokemonFav: []
     }
   },
   computed: {
-    IsHome() {
-      return this.CurrentStatus == 'Home'
-    }, currentContent() {
-      return this.Content;
+    NotNullPokemon() {
+      return this.pokemon != null
     },
-
+    HasGotPokemon() {
+      return this.pokemonFav.length > 0
+    },
+    IsHome() {
+      return this.page == 'Home'
+    }, currentContent() {
+      return this.content;
+    },
     IsFalse() {
       return this.addNew == false;
     }
@@ -114,8 +133,8 @@ export default {
       this.Content = JSON.parse(JSON.stringify(newContent))
     },
     Apend(content) {
-      console.log(content)
-      this.Content.push(content)
+      console.log(typeof (this.content))
+      this.content.set(content.name, content)
     },
     ChangeButton(value) {
       console.log(value)
