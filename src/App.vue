@@ -8,23 +8,21 @@
   </div>
 
   <div v-if="CurrentStatus == 'Home'" class="ContentPanel">
-    <viewer
-      v-for="game in Content"
-      class="gamesContent"
-      :title="game.name"
-      :description="game.description"
-      :image="game.image"
-    >
+    <viewer v-for="game in Content" class="gamesContent" :title="game.name" :description="game.description"
+      :image="game.image">
     </viewer>
   </div>
-  <!-- v-if="CurrentStatus == 'CRUD'" -->
+
+  <!-- v-if="CurrentStatus == 'CRUD'"  v-if="addNew" -->
   <div class="contentPanel2">
-    <ud
-      :array="Content"
-    ></ud>
+    <ud :array="[...Content]" @NewContent="ActualizeContent"></ud>
+  <button v-if="!addNew" @click="addNew=true" class="add">Nou</button>
+  <cr :array="[...Content]" ></cr>
   </div>
+
+
   <div v-if="CurrentStatus == 'API'">
-    <Seeker @search="ConectaApi" ></Seeker>
+    <Seeker @search="ConectaApi"></Seeker>
     <Show :pokemonToShow="pokemon"></Show>
   </div>
 </template>
@@ -35,13 +33,15 @@ import Show from "./components/Show.vue";
 import viewer from '@/components/ShowGame.vue'
 import navButton from '@/components/Status.vue'
 import ud from '@/components/CrudComponents/Ud.vue'
+import cr from "@/components/CrudComponents/CR.vue"
 export default {
   components: {
     viewer,
     navButton,
     ud,
     Seeker,
-    Show
+    Show,
+    cr
   },
   data() {
     return {
@@ -60,7 +60,8 @@ export default {
         }
       ],
       CurrentStatus: 'Home',
-      PageStatus: ['Home', 'CRUD', 'API']
+      PageStatus: ['Home', 'CRUD', 'API'],
+      addNew:false
     }
   },
   computed: {
@@ -73,22 +74,25 @@ export default {
       this.CurrentStatus = status
     },
     ConectaApi(pokemonName) {
-            this.bValue = !this.bValue;
+      this.bValue = !this.bValue;
 
-            fetch("https://pokeapi.co/api/v2/pokemon/" + pokemonName.toLowerCase())
-                .then(res => {
-                    if (res.ok) {
-                        res.json().then((json) => {
-                            this.pokemon=json;                            
-                        })
-                    } else {
-                        throw new Error("")
-                    }
-                })
-                .catch((err => {
-                    console.log(err);
-                }))
-        }
+      fetch("https://pokeapi.co/api/v2/pokemon/" + pokemonName.toLowerCase())
+        .then(res => {
+          if (res.ok) {
+            res.json().then((json) => {
+              this.pokemon = json;
+            })
+          } else {
+            throw new Error("")
+          }
+        })
+        .catch((err => {
+          console.log(err);
+        }))
+    },
+    ActualizeContent(newContent) {
+      this.Content = JSON.parse(JSON.stringify(newContent))
+    }
   }
 }
 </script>
@@ -100,9 +104,14 @@ export default {
   flex-wrap: wrap;
   justify-content: space-around;
 }
-.ContentPanel2{
+.add{
+margin-left: 50%;
+}
+.ContentPanel2 {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 .gamesContent {
