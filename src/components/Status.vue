@@ -10,7 +10,7 @@ export default {
     },
     methods: {
         SendStatus(status) {
-             this.$emit("NewStatus",status)
+             this.$emit("ChangeStatus",status)
         }
     }
 }

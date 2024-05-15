@@ -3,25 +3,26 @@
   <div class="menu">
     <h1>Mi pagina</h1>
     <article class="buttons">
-      <navButton v-for="value in PageStatus" :status="value" @NewStatus="ChangeStatus"></navButton>
+      <navigation v-for="page in pageStatus" :status="page" @ChangeStatus="ChangeStatus"></navigation>
     </article>
   </div>
 
-  <div v-if="CurrentStatus == 'Home'" class="ContentPanel">
-    <viewer v-for="game in Content" class="gamesContent" :title="game.name" :description="game.description"
+  <div v-if="page == 'Home'" class="ContentPanel">
+    <viewer v-for="game in currentContent" class="gamesContent" :title="game.name" :description="game.description"
       :image="game.image">
     </viewer>
   </div>
 
-  <!-- v-if="CurrentStatus == 'CRUD'"  v-if="addNew" -->
-  <div class="contentPanel2">
+  <div class="contentPanel2" v-if="page == 'CRUD'">
+    <button v-if="IsFalse" @click="addNew = true" class="add">Nou</button>
+    <cr v-if="!IsFalse" :array="[...Content]" @AppendArray="Apend" @ChangeAdd="ChangeButton"></cr>
     <ud :array="[...Content]" @NewContent="ActualizeContent"></ud>
-  <button v-if="!addNew" @click="addNew=true" class="add">Nou</button>
-  <cr :array="[...Content]" ></cr>
+
   </div>
 
 
-  <div v-if="CurrentStatus == 'API'">
+
+  <div v-if="page == 'API'">
     <Seeker @search="ConectaApi"></Seeker>
     <Show :pokemonToShow="pokemon"></Show>
   </div>
@@ -31,13 +32,13 @@
 import Seeker from "./components/Seeker.vue";
 import Show from "./components/Show.vue";
 import viewer from '@/components/ShowGame.vue'
-import navButton from '@/components/Status.vue'
+import navigation from '@/components/Status.vue'
 import ud from '@/components/CrudComponents/Ud.vue'
 import cr from "@/components/CrudComponents/CR.vue"
 export default {
   components: {
     viewer,
-    navButton,
+    navigation,
     ud,
     Seeker,
     Show,
@@ -59,19 +60,25 @@ export default {
           image: '/src/components/img/Pokemon.jpg'
         }
       ],
-      CurrentStatus: 'Home',
-      PageStatus: ['Home', 'CRUD', 'API'],
-      addNew:false
+      page: 'Home',
+      pageStatus: ['Home', 'CRUD', 'API'],
+      addNew: false
     }
   },
   computed: {
     IsHome() {
       return this.CurrentStatus == 'Home'
+    }, currentContent() {
+      return this.Content;
+    },
+
+    IsFalse() {
+      return this.addNew == false;
     }
   },
   methods: {
     ChangeStatus(status) {
-      this.CurrentStatus = status
+      this.page = status
     },
     ConectaApi(pokemonName) {
       this.bValue = !this.bValue;
@@ -92,6 +99,16 @@ export default {
     },
     ActualizeContent(newContent) {
       this.Content = JSON.parse(JSON.stringify(newContent))
+    },
+    Apend(content) {
+      console.log(content)
+      this.Content.push(content)
+    },
+    ChangeButton(value) {
+      console.log(value)
+      this.addNew = value;
+      console.log(this.addNew)
+      console.log(this.IsFalse)
     }
   }
 }
@@ -104,9 +121,13 @@ export default {
   flex-wrap: wrap;
   justify-content: space-around;
 }
-.add{
-margin-left: 50%;
+
+.add {
+  margin-left: 50%;
+  width: 90px;
+  height: 60px;
 }
+
 .ContentPanel2 {
   display: flex;
   flex-direction: column;

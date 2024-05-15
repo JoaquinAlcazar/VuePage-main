@@ -10,7 +10,7 @@
         <p class="crud">Borrar</p>
         <p class="crud">Actualizar</p>
       </article>
-      <article v-for="(objeto, index) in copiArray" :key="index" class="table" id="content">
+      <article v-for="(objeto, index) in copyCurrentArray" :key="index" class="table" id="content">
         <textarea class="name" v-model="objeto.name"></textarea>
         <textarea class="desc" v-model="objeto.description"></textarea>
         <textarea class="img" v-model="objeto.image"></textarea>
@@ -34,6 +34,11 @@ export default {
 
     }
   },
+    computed:{
+        copyCurrentArray(){
+return JSON.parse(JSON.stringify(this.array))
+        }
+    },
   methods:
   {
     Delete(item) {
