@@ -15,7 +15,7 @@
             </article>
             <article class="buttons">
                 <button>cancelar</button>
-                <button>Afegir</button>
+                <button @click="Add">Afegir</button>
             </article>
         </section>
     </div>
@@ -38,11 +38,13 @@ export default {
     methods:
     {
         Add() {
-
-            if (this.array.any(x => x.name == this.name)) {
+console.log("ebtrada")
+            if (this.array.some(x => x.name == this.name)) {
                 alert("El joc ja existeix");
             } else {
                 this.ActualizeContent({ name: this.name, description: this.description, image: this.image });
+                console.log("ad")
+               this.ActualizeButton();
             }
         },
         Cancel(newArray) {
@@ -52,7 +54,15 @@ export default {
             const file = event.target.files[0];
             if (file) {
                 this.image = URL.createObjectURL(file);
+
             }
+        },
+        ActualizeContent(array){
+
+            this.$emit("AppendArray",array);
+        },
+        ActualizeButton(){
+            this.$emit("ChangeAdd",false);
         }
     }
 }
