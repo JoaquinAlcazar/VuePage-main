@@ -8,16 +8,16 @@
   </div>
 
   <div v-if="page == 'Home'" class="ContentPanel">
-    <viewer v-for="game in currentContent" class="gamesContent" :title="game.name" :description="game.description"
-      :image="game.image">
+    <viewer v-for="([title, game]) in currentContent" class="gamesContent" :title="title"
+      :description="game.description" :image="game.image" :key="title">
     </viewer>
   </div>
-
+  <!-- class="contentPanel2" v-if="page == 'CRUD'" -->
   <div class="contentPanel2" v-if="page == 'CRUD'">
     <button v-if="IsFalse" @click="addNew = true" class="add">Nou</button>
-    <cr v-if="!IsFalse" :array="[...Content]" @AppendArray="Apend" @ChangeAdd="ChangeButton"></cr>
+    <cr v-if="!IsFalse" :array="currentContent" @AppendArray="Apend" @ChangeAdd="ChangeButton"></cr>
 
-    <ud :array="[...Content]" @NewContent="ActualizeContent"></ud>
+    <ud :array="currentContent" @NewContent="ActualizeContent"></ud>
 
   </div>
 
@@ -26,7 +26,6 @@
     <Seeker @search="ConectaApi" @addFav="AddToFav"></Seeker>
     <Show :pokemonToShow="pokemon"></Show>
     <favoritos :pokemonFavoritos="pokemonFav"></favoritos>
-
   </div>
 </template>
 
@@ -53,35 +52,17 @@ export default {
     return {
       content: new Map([
         ['Dead Cells', {
-          name: 'Dead Cells',
           description: 'Dead Cells es un videojuego híbrido entre el género de exploración de mazmorras o roguelite, y metroidvania, creando su propio género, “roguevania”, desarrollado por el estudio Motion Twin. El juego fue lanzado para PC, Mac, Linux, Playstation 4, Nintendo Switch y Xbox One, siendo lanzado en la plataforma de Steam el 6 de agosto de 2018, bajo la categoría de juego de acción e indie.',
           image: '/src/components/img/Dead Cells.jpg'
         }],
         ['Pokemon XY', {
-          name: 'Pokemon XY',
           description: 'Pokemon XY es una entrega de la franquicia Pokémon desarrollada por Game Freak y distribuida por Nintendo para la consola portátil Nintendo 3DS. Lanzada en 2013, Pokémon XY introdujo la sexta generación de Pokémon, así como nuevas características de juego y gráficos en 3D.',
           image: '/src/components/img/Pokemon.jpg'
         }]
       ]),
-      Content: [
-        {
-
-          name: 'Dead Cells',
-          description:
-            'Dead Cellss es un videojuego híbrido entre el género de exploración de mazmorras o roguelite, y metroidvania, creando su propio género, “roguevania”, desarrollado por el estudio Motion Twin.1​ El juego fue lanzado para PC, Mac, Linux, Playstation 4, Nintendo Switch y Xbox One,1​ siendo lanzado en la plataforma de Steam el 6 de agosto de 2018, bajo la categoría de juego de acción e indie.',
-          image: '/src/components/img/Dead Cells.jpg'
-
-        },
-        {
-          name: 'Pokemon XY',
-          description:
-            'Pokémon X y Pokémon Y, conocidos en Japón como Pocket Monsters X&Y (ポケットモンスター X&Y Poketto Monsutā Ekkusu & Wai?), son dos videojuegos de RPG y aventura, desarrollados por Game Freak y distribuidos por Nintendo para la consola portátil Nintendo 3DS, que fueron lanzados el 12 de octubre de 2013 tanto en Japón como en América, Europa y Australia.2​ Pertenecen a la serie de videojuegos Pokémon, e inauguran la sexta generación de la misma. Fueron anunciados el 8 de enero de 2013 durante el Pokémon Direct por Satoru Iwata, presidente de Nintendo.3​',
-          image: '/src/components/img/Pokemon.jpg'
-        }
-      ],
       page: 'Home',
       pageStatus: ['Home', 'CRUD', 'API'],
-      addNew:false,
+      addNew: false,
 
       pokemon: null,
       pokemonFav: []
@@ -97,7 +78,8 @@ export default {
     IsHome() {
       return this.page == 'Home'
     }, currentContent() {
-      return this.content;
+      console.log(Array.from(this.content))
+      return Array.from(this.content);
     },
     IsFalse() {
       return this.addNew == false;
@@ -125,31 +107,32 @@ export default {
         }))
     },
     AddToFav(pokemon) {
-      console.log(this.pokemon)
+      console.log(pokemon)
       let find = false;
       let counter = 0;
-      let pos=0;
+      let pos = 0;
       for (let i = 0; counter < this.pokemonFav.length; i++) {
         if (this.pokemonFav[i].name == this.pokemon.name) {
           console.log("si")
           find = true;
           pos = i;
-        }   
-        counter++;     
-      }  
-      if (find) {  
-          this.pokemonFav.pop(pos)
-        } else{
-          this.pokemonFav.push(this.pokemon)
         }
-      console.log(this.pokemonFav) 
+        counter++;
+      }
+      if (find) {
+        this.pokemonFav.pop(pos)
+      } else {
+        this.pokemonFav.push(this.pokemon)
+      }
+      console.log(this.pokemonFav)
     },
-    ActualizeContent(newContent) {
-      this.Content = JSON.parse(JSON.stringify(newContent))
+    ActualizeContent(title, value) {
+      this.content.set(title,value)
+      console.log(this.content)
     },
-    Apend(content) {
+    Apend(title,value) {
       console.log(typeof (this.content))
-      this.content.set(content.name, content)
+      this.content.set(title, value)
     },
     ChangeButton(value) {
       console.log(value)

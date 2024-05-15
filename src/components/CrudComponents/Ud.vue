@@ -10,15 +10,15 @@
         <p class="crud">Borrar</p>
         <p class="crud">Actualizar</p>
       </article>
-      <article v-for="(objeto, index) in copyCurrentArray" :key="index" class="table" id="content">
-        <textarea class="name" v-model="objeto.name"></textarea>
-        <textarea class="desc" v-model="objeto.description"></textarea>
-        <textarea class="img" v-model="objeto.image"></textarea>
-        <p class="crud"><button @click="Delete(objeto)">Borrar</button></p>
-        <p class="crud"><button @click="Updated(objeto)">Actualizar</button></p>
+      <article v-for="([title, game]) in copyCurrentArray" class="table" id="content">
+        <p class="name">{{ title }}</p>
+        <textarea class="desc" v-model="game.description"></textarea>
+        <textarea class="img" v-model="game.image"></textarea>
+        <p class="crud"><button @click="Delete(title)">Borrar</button></p>
+        <p class="crud"><button @click="Updated(title, game)">Actualizar</button></p>
       </article>
     </section>
-    
+
   </div>
 </template>
 <script>
@@ -28,30 +28,24 @@ export default {
   props: {
     array: Array,
   },
-  data() {
-    return {
-      copiArray: JSON.parse(JSON.stringify(this.array))
-
+  computed: {
+    copyCurrentArray() {
+      console.log(this.array)
+      return JSON.parse(JSON.stringify(Array.from(this.array)));
     }
   },
-    computed:{
-        copyCurrentArray(){
-return JSON.parse(JSON.stringify(this.array))
-        }
-    },
   methods:
   {
     Delete(item) {
 
       let newArray = this.array.filter(x => x.name != item.name);
       this.ActualizeContent(newArray);
-    }, Updated() {
+    }, Updated(title, newArray) {
 
-      this.ActualizeContent(this.copiArray)
+      this.ActualizeContent(title, newArray)
     },
-    ActualizeContent(newArray) {
-
-      this.$emit("NewContent", newArray)
+    ActualizeContent(title, newArray) {
+      this.$emit("NewContent", title, newArray)
     }
   }
 }
