@@ -22,7 +22,7 @@
 
   </div>
 
-  <div v-if="page == 'API'" class="APICosa">
+  <div v-if="page == 'API'" class="API">
     <Seeker @search="ConectaApi" @addFav="AddToFav"></Seeker>
     <Show :pokemonToShow="pokemon"></Show>
     <favoritos :pokemonFavoritos="pokemonFav"></favoritos>
@@ -190,8 +190,4 @@ h1 {
   border-radius: 8%;
 }
 
-.APICosa{
-  margin-left: 20px;
-  width: 40%;
-}
 </style>
