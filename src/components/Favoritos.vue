@@ -42,5 +42,6 @@ div {
   justify-content: center;
   flex-wrap: wrap;
   justify-content: space-around;
+
 }
 </style>
