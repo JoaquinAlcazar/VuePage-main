@@ -14,7 +14,7 @@
                 <input type="file" class="img" @change="onFileChange">
             </article>
             <article class="buttons">
-                <button>cancelar</button>
+                <button @click="ActualizeButton">cancelar</button>
                 <button @click="Add">Afegir</button>
             </article>
         </section>
@@ -35,36 +35,41 @@ export default {
             image: ''
         }
     },
-    methods:
-    {
+    _methods: {
         Add() {
-console.log("ebtrada")
+            console.log("ebtrada");
             if (this.array.some(x => x.name == this.name)) {
                 alert("El joc ja existeix");
             } else {
-                this.ActualizeContent({ name: this.name, description: this.description, image: this.image });
-                console.log("ad")
-               this.ActualizeButton();
+                this.ActualizeContent(this.name, { description: this.description, image: this.image });
+                console.log("ad");
+                this.ActualizeButton();
             }
         },
         Cancel(newArray) {
-            this.$emit("NewContent", newArray)
+            this.$emit("NewContent", newArray);
         },
         onFileChange(event) {
             const file = event.target.files[0];
             if (file) {
                 this.image = URL.createObjectURL(file);
-
             }
         },
-        ActualizeContent(array){
-
-            this.$emit("AppendArray",array);
+        ActualizeContent(title, value) {
+            console.log("as")
+            console.log(title,value)
+            this.$emit("AppendArray", title, value);
         },
-        ActualizeButton(){
-            this.$emit("ChangeAdd",false);
+        ActualizeButton() {
+            this.$emit("ChangeAdd", false);
         }
-    }
+    },
+    get methods() {
+        return this._methods;
+    },
+    set methods(value) {
+        this._methods = value;
+    },
 }
 </script>
 

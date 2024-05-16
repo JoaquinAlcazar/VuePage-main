@@ -1,8 +1,10 @@
 <template>
     <!-- Código HTML -->
-    <div v-for="pokemon in pokemonFavoritos" class="FavouritePokemon">
-        <img :src="pokemon.sprites.front_default" alt="pokemon.name">
-        <p>{{ pokemon.name }}</p>
+    <div class="FavouritePokemon">
+        <section v-for="([name, values]) in pokemonFavoritos" v-bind:key="name">
+            <img :src="values.sprites.front_default" :alt="name">
+            <p>{{ name }}</p>
+        </section>
     </div>
 </template>
 
@@ -12,9 +14,11 @@
 export default {
     props: ['pokemonFavoritos'],
 
-    name:"fav-p",
-    data(){
+    name: "fav-p",
+    data() {
+
     },
+
     // Lista de funciones (métodos) disponibles en el componente Vue.
     methods: {
 

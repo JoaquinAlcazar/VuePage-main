@@ -1,9 +1,9 @@
 <template>
     <!-- Código HTML -->
     <div v-if="pokemonToShow != null" class="ShowPokemon">
-        <img width="300px" height="300px" v-bind:src="pokemonToShow.sprites.front_default">
-        <p>{{ pokemonToShow.name }}</p>
-        <p>{{ pokemonToShow.id }}</p>
+            <img width="300px" height="300px" v-bind:src="pokemonToShow.sprites.front_default">
+            <p>{{ pokemonToShow.name }}</p>
+            <p>{{ pokemonToShow.id }}</p>
     </div>
 </template>
 
@@ -20,12 +20,16 @@ export default {
     // Lista de funciones (métodos) disponibles en el componente Vue.
     methods: {
         returnInfo(){
-            this.$emit('conextaApi', this.pokemonToShow)
+            this.$emit('conectaApi', this.pokemonToShow)
         }
     },
 };
 </script>
 
-<style>
+<style scoped>
 /* Estilos CSS */
+div {
+    display: flex;
+    flex-direction: column;
+}
 </style>

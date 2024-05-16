@@ -4,7 +4,8 @@
         <form v-on:submit.prevent>
             <input v-model="nameP" type="text">
             <input @click="ReturnValue" type="submit" value=" buscar">
-            <input @click="AddToFav" type="submit" value="Añadir/quitar favoritos">
+            <input @click="AddToFav" type="submit" value="Añadir a favoritos">
+            <input @click="DeleteFav" type="submit" value="Borrar de favoritos">
         </form>
     </div>
 </template>
@@ -13,7 +14,6 @@
 //Defincion de componente estilo Option API Vue2+ y Vue3
 //import NombreComponente from './components/NombreComponente.vue'
 export default {
-
     name:"seeker-p",
     data(){
         return{
@@ -26,7 +26,12 @@ export default {
             this.$emit('search',this.nameP);
         },
         AddToFav(){
+            console.log(this.nameP)
             this.$emit('addFav',this.nameP);
+        },
+        DeleteFav(){
+            console.log(this.nameP)
+            this.$emit('deleteFav', this.nameP);
         }
     },
 };
