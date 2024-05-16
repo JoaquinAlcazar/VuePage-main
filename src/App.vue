@@ -75,13 +75,12 @@ export default {
       return this.pokemon != null
     },
     HasGotPokemon() {
-      console.log(this.pokemonFav.length > 0)
+
       return this.pokemonFav.length > 0
     },
     IsHome() {
       return this.page == 'Home'
     }, currentContent() {
-      console.log(Array.from(this.content))
       return Array.from(this.content);
     },
     IsFalse() {
@@ -112,31 +111,27 @@ export default {
           console.log(err);
         }))
     },
-    AddToFav(pokemon) {
-      console.log(pokemon + "dsa")
-      console.log(this.pokemon)
-      console.log(this.pokemon.name)
+    AddToFav() {
+
       this.pokemonFav.set(this.pokemon.name, this.pokemon)
-      console.log(this.pokemonFav)
+
     },
     DeleteFav(pokemonName) {
-    console.log(pokemonName)
       this.pokemonFav.delete(pokemonName);
     },
     ActualizeContent(title, value) {
       this.content.set(title, value)
-      console.log(this.content)
+
     },
     Append(title, value) {
-      console.log(this.content)
+
 
       this.content.set(title, value)
     },
     ChangeButton(value) {
-      console.log(value)
+
       this.addNew = value;
-      console.log(this.addNew)
-      console.log(this.IsFalse)
+
     }
   }
 }

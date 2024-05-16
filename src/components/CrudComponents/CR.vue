@@ -37,12 +37,12 @@ export default {
     },
     _methods: {
         Add() {
-            console.log("ebtrada");
+
             if (this.array.some(x => x.name == this.name)) {
                 alert("El joc ja existeix");
             } else {
                 this.ActualizeContent(this.name, { description: this.description, image: this.image });
-                console.log("ad");
+
                 this.ActualizeButton();
             }
         },
@@ -56,8 +56,7 @@ export default {
             }
         },
         ActualizeContent(title, value) {
-            console.log("as")
-            console.log(title,value)
+
             this.$emit("AppendArray", title, value);
         },
         ActualizeButton() {

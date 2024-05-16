@@ -29,12 +29,18 @@ export default {
 <style scoped>
 /* Estilos CSS */
 section {
-    width: 400px;
+    width: 300px;
+    display: grid;
+    justify-content: center;
 }
-
+p{
+    text-align: center;
+}
 div {
+    margin-left: 20px;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  justify-content: center;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 </style>

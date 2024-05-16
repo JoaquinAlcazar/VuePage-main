@@ -31,5 +31,8 @@ export default {
 div {
     display: flex;
     flex-direction: column;
+    margin-left: 10px;
+    align-items: center;
+    margin-bottom: 30px;
 }
 </style>
