@@ -21,7 +21,7 @@
   </div>
 
 
-  <div v-if="page == 'API'">
+  <div v-if="page == 'API'" class="APICosa">
     <Seeker @search="ConectaApi" @addFav="AddToFav"></Seeker>
     <Show :pokemonToShow="pokemon"></Show>
     <favoritos :pokemonFavoritos="pokemonFav"></favoritos>
@@ -29,21 +29,21 @@
 </template>
 
 <script>
-import Seeker from "./components/Seeker.vue";
-import Show from "./components/Show.vue";
 import viewer from '@/components/ShowGame.vue'
 import navigation from '@/components/Status.vue'
 import ud from '@/components/CrudComponents/Ud.vue'
 import cr from "@/components/CrudComponents/CR.vue"
+import Seeker from "./components/Seeker.vue";
+import Show from "./components/Show.vue";
 import favoritos from "@/components/Favoritos.vue"
 export default {
   components: {
     viewer,
     navigation,
-    ud,
+    ud,    
+    cr,
     Seeker,
     Show,
-    cr,
     favoritos
 
   },
@@ -192,5 +192,10 @@ h1 {
   text-align: center;
   border-bottom: 1px solid rgb(192, 192, 192);
   border-radius: 8%;
+}
+
+.APICosa{
+  margin-left: 20px;
+  width: 40%;
 }
 </style>

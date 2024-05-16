@@ -23,5 +23,15 @@ export default {
 </script>
 
 <style>
-/* Estilos CSS */
+ .FavouritePokemon{
+    margin-top: 20px;
+ }
+.FavouritePokemon img{
+    width: 100px;
+    height: 100px;
+    margin-bottom: 0px;
+}
+.FavouritePokemon p{
+    margin-top: 0px;
+}
 </style>
